@@ -15,32 +15,33 @@ def main():
     day_01_part_one.main()
     day_01_part_two.examples()
     day_01_part_two.main()
-    
+
     print("---")
     print("Day #2")
     day_02_part_one.examples()
     day_02_part_one.main()
     day_02_part_two.examples()
     day_02_part_two.main()
-    
+
     print("---")
     print("Day #3")
     day_03_part_one.examples()
     day_03_part_one.main()
     day_03_part_two.examples()
     day_03_part_two.main()
-    
+
     print("---")
     print("Day #4")
     day_04_part_one.examples()
     day_04_part_one.main()
     day_04_part_two.examples()
     day_04_part_two.main()
-    
+
     print("---")
     print("Day #5")
     day_05_part_one.examples()
     day_05_part_one.main()
+
 
 if __name__ == "__main__":
     main()

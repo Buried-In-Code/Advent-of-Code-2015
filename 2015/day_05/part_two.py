@@ -45,7 +45,7 @@ def main():
         return
 
     count = solution(input=input)
-    print(f"Part One: {count}")
+    print(f"Part Two: {count}")
 
 
 # region testing

@@ -1,5 +1,6 @@
 from pathlib import Path
 
+
 def read_input() -> str | None:
     input_file = Path(__file__).parent / "input.txt"
     if not input_file.exists():
@@ -9,9 +10,10 @@ def read_input() -> str | None:
         input = stream.read()
     return input
 
+
 def solution(input: str) -> int:
-    santa_location = (0, 0) #x, y
-    robot_location = (0, 0) #x, y
+    santa_location = (0, 0)  # x, y
+    robot_location = (0, 0)  # x, y
     houses = {santa_location}
     for index, entry in enumerate(input):
         location = santa_location if index % 2 == 0 else robot_location
@@ -30,12 +32,14 @@ def solution(input: str) -> int:
             robot_location = location
     return len(houses)
 
+
 def main():
     if not (input := read_input()):
         return
-    
+
     houses = solution(input=input)
     print(f"Part Two: {houses}")
+
 
 # region testing
 def examples():
@@ -45,6 +49,8 @@ def examples():
     assert houses == 3
     houses = solution(input="^v^v^v^v^v")
     assert houses == 11
+
+
 # endregion
 
 if __name__ == "__main__":

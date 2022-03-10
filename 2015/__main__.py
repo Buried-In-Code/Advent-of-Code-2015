@@ -7,6 +7,7 @@ from .day_03 import part_two as day_03_part_two
 from .day_04 import part_one as day_04_part_one
 from .day_04 import part_two as day_04_part_two
 from .day_05 import part_one as day_05_part_one
+from .day_05 import part_two as day_05_part_two
 
 
 def main():
@@ -41,6 +42,8 @@ def main():
     print("Day #5")
     day_05_part_one.examples()
     day_05_part_one.main()
+    day_05_part_two.examples()
+    day_05_part_two.main()
 
 
 if __name__ == "__main__":

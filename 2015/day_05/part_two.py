@@ -15,26 +15,21 @@ def solution(input: list[str]) -> int:
     count = 0
     for word in input:
         word = word.lower()
-        if "ab" in word or "cd" in word or "pq" in word or "xy" in word:
+        match = False
+        for x in range(0, len(word)):
+            group = word[x : x + 2]
+            leftover = word[x + 2 :]
+            if group in leftover:
+                match = True
+        if not match:
             continue
-        vowels = (
-            word.count("a") + word.count("e") + word.count("i") + word.count("o") + word.count("u")
-        )
-        if vowels < 3:
-            continue
-        previous = ""
-        letter_count = 0
-        valid = False
-        for letter in word:
-            if letter == previous:
-                letter_count += 1
-            else:
-                letter_count = 1
-            if letter_count >= 2:
-                valid = True
+        match = False
+        for index, letter in enumerate(word):
+            if index + 2 >= len(word):
                 break
-            previous = letter
-        if not valid:
+            if letter == word[index + 2]:
+                match = True
+        if not match:
             continue
         count += 1
     return count
@@ -50,15 +45,13 @@ def main():
 
 # region testing
 def examples():
-    count = solution(input=["ugknbfddgicrmopn"])
+    count = solution(input=["qjhvhtzxzqqjkmpb"])
     assert count == 1
-    count = solution(input=["aaa"])
+    count = solution(input=["xxyxx"])
     assert count == 1
-    count = solution(input=["jchzalrnumimnmhp"])
+    count = solution(input=["uurcxstgmygtbstg"])
     assert count == 0
-    count = solution(input=["haegwjzuvuyypxyu"])
-    assert count == 0
-    count = solution(input=["dvszwmarrgswjxmb"])
+    count = solution(input=["ieodomkazucvgmuy"])
     assert count == 0
 
 

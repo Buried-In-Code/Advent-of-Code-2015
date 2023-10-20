@@ -2,35 +2,35 @@ import re
 from pathlib import Path
 
 
-def read_input() -> list[str]:
+def read_input_file() -> list[str]:
     input_file = Path(__file__).parent / "input.txt"
     if not input_file.exists():
         print(f"{input_file} doesn't exist")
         return []
     with input_file.open("r", encoding="UTF-8") as stream:
-        input = [x.strip() for x in stream.readlines()]
-    return input
+        return [x.strip() for x in stream.readlines()]
 
 
-def gate(operator: str, values: list[int]) -> int:
+def gate(operator: str, values: list[int]) -> int | None:
     if operator == "AND":
         return values[0] & values[1]
-    elif operator == "OR":
+    if operator == "OR":
         return values[0] | values[1]
-    elif operator == "LSHIFT":
+    if operator == "LSHIFT":
         return values[0] << values[1]
-    elif operator == "RSHIFT":
+    if operator == "RSHIFT":
         return values[0] >> values[1]
-    elif operator == "NOT":
+    if operator == "NOT":
         return 0xFFFF & ~values[0]
+    return None
 
 
-def solution(input: list[str]) -> dict[str, int]:
+def solution(input_data: list[str]) -> dict[str, int]:
     regex = r"(?:(.*?)(OR|NOT|RSHIFT|LSHIFT|AND) (.*)|(.*)) -> (.*)"
     output = {}
     index = 0
-    while len(input) > 0:
-        match = re.search(regex, input[index])
+    while len(input_data) > 0:
+        match = re.search(regex, input_data[index])
         if not match:
             break
         result_key = match.group(5)
@@ -48,45 +48,45 @@ def solution(input: list[str]) -> dict[str, int]:
                 values.append(match.group(3).strip())
             wait = False
             for value in values:
-                if type(value) == str and value not in output:
+                if isinstance(value, str) and value not in output:
                     wait = True
             if not wait:
                 output[result_key] = gate(
                     operator=match.group(2),
-                    values=[x if type(x) == int else output[x] for x in values],
+                    values=[x if isinstance(x, int) else output[x] for x in values],
                 )
-                input.remove(input[index])
+                input_data.remove(input_data[index])
         else:
             try:
                 value = int(match.group(4))
             except ValueError:
                 value = match.group(4)
-            if type(value) == int:
+            if isinstance(value, int):
                 output[result_key] = value
-                input.remove(input[index])
-            elif type(value) == str and value in output:
+                input_data.remove(input_data[index])
+            elif isinstance(value, str) and value in output:
                 output[result_key] = output[value]
-                input.remove(input[index])
+                input_data.remove(input_data[index])
 
-        if index < len(input) - 1:
+        if index < len(input_data) - 1:
             index += 1
         else:
             index = 0
     return output
 
 
-def main():
-    if not (input := read_input()):
+def main() -> None:
+    if not (input_data := read_input_file()):
         return
 
-    signal = solution(input=input)
+    signal = solution(input_data=input_data)
     print(f"Part One: {signal['a']}")
 
 
 # region testing
-def examples():
+def examples() -> None:
     signal = solution(
-        input=[
+        input_data=[
             "123 -> x",
             "456 -> y",
             "x AND y -> d",
@@ -95,7 +95,7 @@ def examples():
             "y RSHIFT 2 -> g",
             "NOT x -> h",
             "NOT y -> i",
-        ]
+        ],
     )
     assert signal == {
         "d": 72,

@@ -2,36 +2,35 @@ from hashlib import md5
 from pathlib import Path
 
 
-def read_input() -> str | None:
+def read_input_file() -> str | None:
     input_file = Path(__file__).parent / "input.txt"
     if not input_file.exists():
         print(f"{input_file} doesn't exist")
         return None
     with input_file.open("r", encoding="UTF-8") as stream:
-        input = stream.read()
-    return input
+        return stream.read()
 
 
-def solution(input: str) -> int:
+def solution(input_data: str) -> int:
     counter = 1
-    while not md5(f"{input}{counter}".encode()).hexdigest().startswith("00000"):
+    while not md5(f"{input_data}{counter}".encode()).hexdigest().startswith("00000"):  # noqa: S324
         counter += 1
     return counter
 
 
-def main():
-    if not (input := read_input()):
+def main() -> None:
+    if not (input_data := read_input_file()):
         return
 
-    number = solution(input=input)
+    number = solution(input_data=input_data)
     print(f"Part One: {number}")
 
 
 # region testing
-def examples():
-    number = solution(input="abcdef")
+def examples() -> None:
+    number = solution(input_data="abcdef")
     assert number == 609043
-    number = solution(input="pqrstuv")
+    number = solution(input_data="pqrstuv")
     assert number == 1048970
 
 

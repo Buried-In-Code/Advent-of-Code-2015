@@ -1,19 +1,18 @@
 from pathlib import Path
 
 
-def read_input() -> str | None:
+def read_input_file() -> str | None:
     input_file = Path(__file__).parent / "input.txt"
     if not input_file.exists():
         print(f"{input_file} doesn't exist")
         return None
     with input_file.open("r", encoding="UTF-8") as stream:
-        input = stream.read()
-    return input
+        return stream.read()
 
 
-def solution(input: str) -> int:
+def solution(input_data: str) -> int:
     total = 0
-    for entry in input:
+    for entry in input_data:
         if entry == "(":
             total += 1
         elif entry == ")":
@@ -21,33 +20,33 @@ def solution(input: str) -> int:
     return total
 
 
-def main():
-    if not (input := read_input()):
+def main() -> None:
+    if not (input_data := read_input_file()):
         return
 
-    floor = solution(input=input)
+    floor = solution(input_data=input_data)
     print(f"Part One: {floor}")
 
 
 # region testing
-def examples():
-    floor = solution(input="(())")
+def examples() -> None:
+    floor = solution(input_data="(())")
     assert floor == 0
-    floor = solution(input="()()")
+    floor = solution(input_data="()()")
     assert floor == 0
-    floor = solution(input="(((")
+    floor = solution(input_data="(((")
     assert floor == 3
-    floor = solution(input="(()(()(")
+    floor = solution(input_data="(()(()(")
     assert floor == 3
-    floor = solution(input="))(((((")
+    floor = solution(input_data="))(((((")
     assert floor == 3
-    floor = solution(input="())")
+    floor = solution(input_data="())")
     assert floor == -1
-    floor = solution(input="))(")
+    floor = solution(input_data="))(")
     assert floor == -1
-    floor = solution(input=")))")
+    floor = solution(input_data=")))")
     assert floor == -3
-    floor = solution(input=")())())")
+    floor = solution(input_data=")())())")
     assert floor == -3
 
 

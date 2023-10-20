@@ -1,20 +1,19 @@
 from pathlib import Path
 
 
-def read_input() -> list[str]:
+def read_input_file() -> list[str]:
     input_file = Path(__file__).parent / "input.txt"
     if not input_file.exists():
         print(f"{input_file} doesn't exist")
         return []
     with input_file.open("r", encoding="UTF-8") as stream:
-        input = stream.readlines()
-    return input
+        return stream.readlines()
 
 
-def solution(input: list[str]) -> int:
+def solution(input_data: list[str]) -> int:
     count = 0
-    for word in input:
-        word = word.lower()
+    for word in input_data:
+        word = word.lower()  # noqa: PLW2901
         if "ab" in word or "cd" in word or "pq" in word or "xy" in word:
             continue
         vowels = (
@@ -40,25 +39,25 @@ def solution(input: list[str]) -> int:
     return count
 
 
-def main():
-    if not (input := read_input()):
+def main() -> None:
+    if not (input_data := read_input_file()):
         return
 
-    count = solution(input=input)
+    count = solution(input_data=input_data)
     print(f"Part One: {count}")
 
 
 # region testing
-def examples():
-    count = solution(input=["ugknbfddgicrmopn"])
+def examples() -> None:
+    count = solution(input_data=["ugknbfddgicrmopn"])
     assert count == 1
-    count = solution(input=["aaa"])
+    count = solution(input_data=["aaa"])
     assert count == 1
-    count = solution(input=["jchzalrnumimnmhp"])
+    count = solution(input_data=["jchzalrnumimnmhp"])
     assert count == 0
-    count = solution(input=["haegwjzuvuyypxyu"])
+    count = solution(input_data=["haegwjzuvuyypxyu"])
     assert count == 0
-    count = solution(input=["dvszwmarrgswjxmb"])
+    count = solution(input_data=["dvszwmarrgswjxmb"])
     assert count == 0
 
 

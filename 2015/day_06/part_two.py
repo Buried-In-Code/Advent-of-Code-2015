@@ -2,20 +2,19 @@ import re
 from pathlib import Path
 
 
-def read_input() -> list[str]:
+def read_input_file() -> list[str]:
     input_file = Path(__file__).parent / "input.txt"
     if not input_file.exists():
         print(f"{input_file} doesn't exist")
         return []
     with input_file.open("r", encoding="UTF-8") as stream:
-        input = stream.readlines()
-    return input
+        return stream.readlines()
 
 
-def solution(input: list[str]) -> int:
-    lights = {(x, y): 0 for x in range(0, 1000) for y in range(0, 1000)}
+def solution(input_data: list[str]) -> int:
+    lights = {(x, y): 0 for x in range(1000) for y in range(1000)}
     regex = r"(.*) (\d+,\d+).*?(\d+,\d+)"
-    for command in input:
+    for command in input_data:
         match = re.search(regex, command)
         if not match:
             continue
@@ -35,23 +34,22 @@ def solution(input: list[str]) -> int:
 
                 temp = (temp[0], temp[1] + 1)
             temp = (temp[0] + 1, start[1])
-    brightness = sum(lights.values())
-    return brightness
+    return sum(lights.values())
 
 
-def main():
-    if not (input := read_input()):
+def main() -> None:
+    if not (input_data := read_input_file()):
         return
 
-    brightness = solution(input=input)
+    brightness = solution(input_data=input_data)
     print(f"Part Two: {brightness}")
 
 
 # region testing
-def examples():
-    brightness = solution(input=["turn on 0,0 through 0,0"])
+def examples() -> None:
+    brightness = solution(input_data=["turn on 0,0 through 0,0"])
     assert brightness == 1
-    brightness = solution(input=["toggle 0,0 through 999,999"])
+    brightness = solution(input_data=["toggle 0,0 through 999,999"])
     assert brightness == 2000000
 
 

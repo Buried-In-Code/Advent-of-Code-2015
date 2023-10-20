@@ -1,6 +1,9 @@
 import re
 from pathlib import Path
 
+from rich import print
+from rich.traceback import install
+
 
 def read_input_file() -> list[str]:
     input_file = Path(__file__).parent / "input.txt"
@@ -57,5 +60,6 @@ def examples() -> None:
 # endregion
 
 if __name__ == "__main__":
+    install(show_locals=True, max_frames=5)
     examples()
     main()
